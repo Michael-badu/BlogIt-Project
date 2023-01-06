@@ -6,6 +6,7 @@ const unknownEndpoint = require("./unknownEndpoint")
 const {requestLogger} = require("./logging/logger")
 const rateLimit = require("express-rate-limit")
 const helmet = require("helmet")
+const cors = require("cors")
 
 //Routes
 const articleRouter = require("./routes/articles")
@@ -22,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use("/api/v1/articles", articleRouter)
-app.use("/api/v1/signUp", signUpRouter)
+app.use("/api/v1/signup", signUpRouter)
 app.use("/api/v1/login", loginRouter)
 
 app.get ("/", (req, res) => {
@@ -31,6 +32,8 @@ app.get ("/", (req, res) => {
 
 // use request logger
 app.use(requestLogger)
+
+app.use(cors())
 
 //Add rate limiter
 const limiter = rateLimit({
